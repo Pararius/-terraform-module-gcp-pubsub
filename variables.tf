@@ -9,9 +9,10 @@ variable "labels" {
 
 variable "subscriptions" {
   type = list(object({
-    subscription_name    = string
-    acknowledge_deadline = number
-    labels               = optional(map(string))
+    subscription_name          = string
+    acknowledge_deadline       = number
+    message_retention_duration = optional(number)
+    labels                     = optional(map(string))
   }))
 }
 
