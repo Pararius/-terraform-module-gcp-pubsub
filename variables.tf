@@ -16,7 +16,7 @@ variable "subscriptions" {
     }))
     labels                     = optional(map(string))
     message_retention_duration = optional(number)
-    retain_acked_messages      = bool
+    retain_acked_messages      = optional(bool)
     retry_policy = optional(object({
       minimum_backoff = optional(number)
       maximum_backoff = optional(number)
