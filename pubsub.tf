@@ -31,7 +31,7 @@ resource "google_pubsub_subscription" "subscription" {
   }
 
   expiration_policy {
-    ttl = each.value.expiration_letter_policy == null ? "" : each.value.expiration_letter_policy
+    ttl = each.value.expiration_policy == null ? "" : each.value.expiration_policy
   }
 
   dynamic "retry_policy" {
