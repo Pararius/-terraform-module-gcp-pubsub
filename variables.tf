@@ -14,6 +14,7 @@ variable "subscriptions" {
       topic_name            = optional(string)
       max_delivery_attempts = optional(number)
     }))
+    expiration_policy          = optional(string)
     labels                     = optional(map(string))
     message_retention_duration = optional(number)
     retain_acked_messages      = optional(bool)

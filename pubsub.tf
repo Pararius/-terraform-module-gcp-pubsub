@@ -30,6 +30,10 @@ resource "google_pubsub_subscription" "subscription" {
     }
   }
 
+  expiration_policy {
+    ttl = each.value.expiration_letter_policy == null ? "" : each.value.expiration_letter_policy
+  }
+
   dynamic "retry_policy" {
     for_each = each.value.dead_letter_policy == null ? [] : [1]
     iterator = policy
