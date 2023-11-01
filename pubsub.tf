@@ -7,7 +7,7 @@ resource "google_pubsub_topic" "topic" {
   lifecycle {
     precondition {
       condition     = var.shared == false ? var.team != null : var.team == null
-      error_message = "If var.shared = true, then var.team must be set to valid team name"
+      error_message = "If var.shared = false, then var.team must be set to valid team name"
     }
   }
 }
