@@ -32,28 +32,48 @@ variable "project" {
 }
 
 variable "shared" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Set to true if this topic ownership is shared between differents teams, i.e. different teams publish to it"
 }
 
+variable "_allowed_environments" {
+  default = [
+    "dev",
+    "global",
+    "production",
+    "staging"
+  ]
+}
+
+variable "_allowed_teams" {
+  default = [
+    "analytics",
+    "devops",
+    "label-platform",
+    "leadflow",
+    "office",
+    "scraper"
+  ]
+}
+
 variable "team" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "The team that owns the topic"
 
   validation {
-    condition = var.shared == false && contains(local.allowed_teams, var.team)
-    error_message = "Unrecognized team, the following teams are allowed: ${join(", ", local.allowed_teams)}"
+    condition     = var.shared == false && contains(var._allowed_teams, var.team)
+    error_message = "Unrecognized team, the following teams are allowed: ${join(", ", var._allowed_teams)}"
   }
 }
 
 variable "environment" {
-    type = string
-    description = "In what environment this topic belongs too"
+  type        = string
+  description = "In what environment this topic belongs too"
 
-    validation {
-      condition = contains(local.allowed_environments, var.environment)
-      error_message = "Unrecognized environment, the following environments are allowed: ${join(", ", local.allowed_environments)}"
-    }
+  validation {
+    condition     = contains(var._allowed_environments, var.environment)
+    error_message = "Unrecognized environment, the following environments are allowed: ${join(", ", var._allowed_environments)}"
+  }
 }
