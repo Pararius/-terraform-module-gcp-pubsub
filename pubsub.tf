@@ -2,7 +2,7 @@ resource "google_pubsub_topic" "topic" {
   project = var.project
   name    = var.topic
 
-  labels = var.labels
+  labels = local.labels
 }
 
 resource "google_pubsub_subscription" "subscription" {

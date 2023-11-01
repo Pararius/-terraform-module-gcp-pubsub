@@ -4,7 +4,7 @@ variable "topic" {
 
 variable "labels" {
   type    = map(string)
-  default = null
+  default = {}
 }
 
 variable "subscriptions" {
@@ -29,4 +29,31 @@ variable "subscriptions" {
 variable "project" {
   type    = string
   default = null
+}
+
+variable "shared" {
+  type = bool
+  default = false
+  description = "Set to true if this topic ownership is shared between differents teams, i.e. different teams publish to it"
+}
+
+variable "team" {
+  type = string
+  default = null
+  description = "The team that owns the topic"
+
+  validation {
+    condition = var.shared == false && contains(local.allowed_teams, var.team)
+    error_message = "Unrecognized team, the following teams are allowed: ${join(", ", local.allowed_teams)}"
+  }
+}
+
+variable "environment" {
+    type = string
+    description = "In what environment this topic belongs too"
+
+    validation {
+      condition = contains(local.allowed_environments, var.environment)
+      error_message = "Unrecognized environment, the following environments are allowed: ${join(", ", local.allowed_environments)}"
+    }
 }
