@@ -76,14 +76,3 @@ variable "environment" {
     ])}"
   }
 }
-
-check "required" {
-  assert {
-    condition     = var.shared == true && var.team == null
-    error_message = "When shared = true, team must be set to null"
-  }
-  assert {
-    condition     = var.shared == false && var.team != null
-    error_message = "When shared = false, team must be set to a valid team name"
-  }
-}

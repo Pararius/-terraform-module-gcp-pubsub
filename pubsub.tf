@@ -3,6 +3,13 @@ resource "google_pubsub_topic" "topic" {
   name    = var.topic
 
   labels = local.labels
+
+  lifecycle {
+    precondition {
+      condition     = var.shared == false ? var.team != null : var.team == null
+      error_message = "If var.shared = true, then var.team must be set to valid team name"
+    }
+  }
 }
 
 resource "google_pubsub_subscription" "subscription" {
