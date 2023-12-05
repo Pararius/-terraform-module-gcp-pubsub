@@ -1,0 +1,5 @@
+---
+namespace: shared
+name: pubsub
+system: google
+version: 0.1.0
