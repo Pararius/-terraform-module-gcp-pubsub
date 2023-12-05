@@ -7,7 +7,20 @@ locals {
     },
   )
 
-  project = var.project_override != null ? var.project_override : var.team == "analytics" ? "treehouse-analyticsplatform" : var.environment == "shared" ? "treehouse-devops" : "treehouse-services-${var.environment}"
+  environment_project_overrides = {
+    "shared":     "treehouse-services-devops",
+  }
+  team_project_overrides = {
+    "analytics": "treehouse-analyticsplatform",
+  }
+  project = coalesce(
+    var.project_override,
+    try(
+      local.team_project_overrides[var.team],
+      local.environment_project_overrides[var.environment],
+      "treehouse-services-${var.environment}",
+    ),
+  )
 
   subscriptions = {
     for subscription in var.subscriptions :

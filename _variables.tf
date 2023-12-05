@@ -4,7 +4,6 @@ variable "environment" {
   validation {
     condition = contains(
       [
-        "global",
         "production",
         "shared",
         "staging",
@@ -74,7 +73,6 @@ variable "team" {
         "scraper",
         "website",
         # Not team specific
-        "global",
         "shared",
       ],
       var.team
