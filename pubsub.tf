@@ -18,15 +18,15 @@ resource "google_pubsub_subscription" "subscription" {
   retain_acked_messages      = each.value.retain_acked_messages
 
   dynamic "dead_letter_policy" {
-    for_each = each.value.dead_letter_policy == null ? [] : [1]
+    for_each = each.value.dead_letter_policy == null ? [] : [each.value.dead_letter_policy]
     iterator = policy
 
     content {
       dead_letter_topic = try(
-        regex("^projects/[^/]+/topics/", policy.topic_name) == "" ? "${data.google_project.current.id}/topics/${policy.topic_name}" : policy.topic_name,
+        regex("^projects/[^/]+/topics/", policy.value.topic_name) == "" ? "${data.google_project.current.id}/topics/${policy.value.topic_name}" : policy.value.topic_name,
         null
       )
-      max_delivery_attempts = try(policy.max_delivery_attempts, null)
+      max_delivery_attempts = try(policy.value.max_delivery_attempts, null)
     }
   }
 
@@ -35,12 +35,12 @@ resource "google_pubsub_subscription" "subscription" {
   }
 
   dynamic "retry_policy" {
-    for_each = each.value.retry_policy == null ? [] : [1]
+    for_each = each.value.retry_policy == null ? [] : [each.value.retry_policy]
     iterator = policy
 
     content {
-      minimum_backoff = policy.minimum_backoff
-      maximum_backoff = policy.maximum_backoff
+      minimum_backoff = policy.value.minimum_backoff
+      maximum_backoff = policy.value.maximum_backoff
     }
   }
 }
