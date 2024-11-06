@@ -35,12 +35,12 @@ resource "google_pubsub_subscription" "subscription" {
   }
 
   dynamic "retry_policy" {
-    for_each = each.value.dead_letter_policy == null ? [] : [1]
+    for_each = each.value.retry_policy == null ? [] : [1]
     iterator = policy
 
     content {
-      minimum_backoff = try(policy.minimum_backoff, null)
-      maximum_backoff = try(policy.maximum_backoff, null)
+      minimum_backoff = policy.minimum_backoff
+      maximum_backoff = policy.maximum_backoff
     }
   }
 }
